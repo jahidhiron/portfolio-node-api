@@ -1,0 +1,30 @@
+{
+  "schemas": {
+    "UserLoginHistory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1,
+          "description": "Unique identifier for the login history record"
+        },
+        "userId": {
+          "type": "integer",
+          "example": 101,
+          "description": "ID of the user associated with the login history"
+        },
+        "loginAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-02-11T10:30:00Z",
+          "description": "Timestamp when the user logged in"
+        },
+        "ipAddress": {
+          "type": "string",
+          "example": "192.168.1.1",
+          "description": "IP address from which the user logged in"
+        }
+      }
+    }
+  }
+}

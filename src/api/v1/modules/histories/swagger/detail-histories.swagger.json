@@ -1,0 +1,277 @@
+{
+  "get": {
+    "summary": "Get user login history by user Id",
+    "description": "Fetches the login history of a user by their user Id. Authorization bearer token is required in the header. Access may be restricted based on the user's role.",
+    "operationId": "getUserLoginHistory",
+    "tags": ["UserLoginHistory"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "userId",
+        "in": "path",
+        "required": true,
+        "description": "Id of the user to fetch login history",
+        "schema": {
+          "type": "integer",
+          "example": 101
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "User login history fetched successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "OK" },
+                "statusCode": { "type": "integer", "example": 200 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "User login history fetched successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "loginHistory": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "example": 1 },
+                          "userId": { "type": "integer", "example": 101 },
+                          "loginAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-02-11T10:30:00Z"
+                          },
+                          "ipAddress": {
+                            "type": "string",
+                            "example": "192.168.1.1"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "success-example": {
+                "summary": "A successful user login history example response",
+                "value": {
+                  "name": "OK",
+                  "statusCode": 200,
+                  "response": true,
+                  "message": "User login history fetched successfully",
+                  "data": {
+                    "loginHistory": [
+                      {
+                        "id": 1,
+                        "userId": 101,
+                        "loginAt": "2025-02-11T10:30:00Z",
+
+                        "ipAddress": "192.168.1.1",
+                        "user": {
+                          "id": 4,
+                          "firstName": "Jahid",
+                          "lastName": "Hiron",
+                          "email": "hironse.10@gmail.com",
+                          "isActive": false,
+                          "isVerified": false,
+                          "role": {
+                            "id": 2,
+                            "name": "Customer",
+                            "description": null,
+                            "isActive": true
+                          }
+                        }
+                      },
+                      {
+                        "id": 2,
+                        "userId": 101,
+                        "loginAt": "2025-02-10T09:15:00Z",
+                        "ipAddress": "192.168.1.2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, invalid or missing token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Unauthorized" },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "unauthorized-error-example": {
+                "summary": "Unauthorized error response",
+                "value": {
+                  "name": "UnauthorizedError",
+                  "response": false,
+                  "message": "Unauthorized",
+                  "statusCode": 401,
+                  "errors": [{ "message": "Unauthorized" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden, user does not have the required role to access this resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "ForbiddenError" },
+                "response": { "type": "boolean", "example": false },
+                "message": {
+                  "type": "string",
+                  "example": "Forbidden: Insufficient permissions based on role"
+                },
+                "statusCode": { "type": "integer", "example": 403 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "User does not have the necessary role"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "forbidden-error-example": {
+                "summary": "Forbidden error due to insufficient role permissions",
+                "value": {
+                  "name": "ForbiddenError",
+                  "response": false,
+                  "message": "Forbidden: Insufficient permissions based on role",
+                  "statusCode": 403,
+                  "errors": [
+                    { "message": "User does not have the necessary role" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not Found, the requested resource does not exist",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "NotFoundError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Not Found" },
+                "statusCode": { "type": "integer", "example": 404 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": { "type": "string", "example": "Not Found" }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "not-found-error-example": {
+                "summary": "Not Found error response",
+                "value": {
+                  "name": "NotFoundError",
+                  "response": false,
+                  "message": "Not Found",
+                  "statusCode": 404,
+                  "errors": [{ "message": "Not Found" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "InternalServerError" },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "internal-server-error-example": {
+                "summary": "Internal server error",
+                "value": {
+                  "name": "InternalServerError",
+                  "response": false,
+                  "message": "Internal server error",
+                  "statusCode": 500,
+                  "errors": [{ "message": "Internal server error" }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

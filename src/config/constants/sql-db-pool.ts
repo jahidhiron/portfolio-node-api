@@ -1,0 +1,6 @@
+export const DB_POOL = {
+  DB_MAX_POOL: 5,
+  DB_MIN_POOL: 0,
+  DB_POOL_ACQUIRE: 30000,
+  DB_POOL_IDLE: 10000,
+};

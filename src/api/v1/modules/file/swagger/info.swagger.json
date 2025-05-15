@@ -1,0 +1,7 @@
+{
+  "info": {
+    "title": "Files API",
+    "version": "1.0.0",
+    "description": "API for file management (upload, list, get details, and delete files)."
+  }
+}

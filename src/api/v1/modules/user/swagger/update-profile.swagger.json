@@ -1,0 +1,260 @@
+{
+  "put": {
+    "summary": "Update user profile",
+    "description": "Allows authenticated users to update their profile by modifying first name and/or last name.",
+    "operationId": "updateProfile",
+    "tags": ["User"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Id of the user to update",
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      }
+    ],
+    "requestBody": {
+      "description": "First name and/or last name can be updated. They are optional.",
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "Jhon"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "User profile updated successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "OK" },
+                "statusCode": { "type": "integer", "example": 200 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "User profile updated successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "example": 1 },
+                        "firstName": {
+                          "type": "string",
+                          "example": "John"
+                        },
+                        "lastName": { "type": "string", "example": "Doe" },
+                        "email": {
+                          "type": "string",
+                          "example": "john.doe@example.com"
+                        },
+                        "isVerified": { "type": "boolean", "example": true },
+                        "isActive": { "type": "boolean", "example": true },
+                        "role": { "type": "integer", "example": 1 },
+
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2025-01-01T12:00:00Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2025-01-01T12:00:00Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "success-example": {
+                "summary": "A successful update response",
+                "value": {
+                  "name": "OK",
+                  "statusCode": 200,
+                  "response": true,
+                  "message": "Profile updated successfully",
+                  "data": {
+                    "user": {
+                      "id": 8,
+                      "firstName": "Jahid",
+                      "lastName": "Hiron",
+                      "email": "user4@gmail.com",
+                      "isActive": false,
+                      "isVerified": false,
+                      "createdAt": "2025-03-12T04:48:36.433Z",
+                      "updatedAt": "2025-03-12T05:02:50.207Z",
+                      "role": {
+                        "id": 2,
+                        "name": "Customer",
+                        "description": null,
+                        "isActive": true
+                      },
+                      "company": {
+                        "id": 2,
+                        "name": "Company 1",
+                        "primaryContactEmail": "contact@gmail.com",
+                        "isActive": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, invalid or missing token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Unauthorized" },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "unauthorized-error-example": {
+                "summary": "Unauthorized error response",
+                "value": {
+                  "name": "UnauthorizedError",
+                  "response": false,
+                  "message": "Unauthorized",
+                  "statusCode": 401,
+                  "errors": [{ "message": "Unauthorized" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "User not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "NotFoundError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Not found" },
+                "statusCode": { "type": "integer", "example": 404 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "User not found"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "not-found-error-example": {
+                "summary": "User not found error response",
+                "value": {
+                  "name": "NotFoundError",
+                  "response": false,
+                  "message": "User not found",
+                  "statusCode": 404,
+                  "errors": [{ "message": "User not found" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": {
+                  "type": "string",
+                  "example": "InternalServerError"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "internal-server-error-example": {
+                "summary": "Internal server error",
+                "value": {
+                  "name": "InternalServerError",
+                  "response": false,
+                  "message": "Internal server error",
+                  "statusCode": 500,
+                  "errors": [{ "message": "Internal server error" }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

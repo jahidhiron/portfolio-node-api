@@ -1,0 +1,158 @@
+{
+  "get": {
+    "summary": "List API requests",
+    "description": "Get a list of API requests with optional filters",
+    "operationId": "listRequests",
+    "tags": ["API Requests"],
+    "parameters": [
+      {
+        "name": "q",
+        "in": "query",
+        "description": "Search query to filter requests",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "description": "Filter by request status",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "description": "Page number for pagination",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        }
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of items per page",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10
+        }
+      },
+      {
+        "name": "company",
+        "in": "query",
+        "description": "Filter by company ID",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "domain",
+        "in": "query",
+        "description": "Filter by domain ID",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      {
+        "name": "from",
+        "in": "query",
+        "description": "Filter requests from this date (YYYY-MM-DD)",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      {
+        "name": "to",
+        "in": "query",
+        "description": "Filter requests to this date (YYYY-MM-DD)",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Successfully retrieved list of requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "OK" },
+                "statusCode": { "type": "integer", "example": 200 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "Requests retrieved successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "requests": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Request" }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "integer", "example": 100 },
+                        "page": { "type": "integer", "example": 1 },
+                        "limit": { "type": "integer", "example": 10 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, authentication required",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "message": {
+                  "type": "string",
+                  "example": "Authentication required"
+                },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid token"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

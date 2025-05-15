@@ -1,0 +1,41 @@
+{
+  "schemas": {
+    "File": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "path": {
+          "type": "string",
+          "example": "uploads/file.png"
+        },
+        "size": {
+          "type": "integer",
+          "example": 1048576,
+          "description": "File size in bytes"
+        },
+        "mimetype": {
+          "type": "string",
+          "example": "application/pdf",
+          "description": "MIME type of the file"
+        },
+        "updatedBy": {
+          "$ref": "#/components/schemas/User",
+          "description": "User who last updated the file"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-03-17T12:00:00Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-03-17T12:30:00Z"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "info": {
+    "title": "User API",
+    "version": "1.0.0",
+    "description": "API for user management (current user, update profile, user details, user list, and delete user)."
+  }
+}

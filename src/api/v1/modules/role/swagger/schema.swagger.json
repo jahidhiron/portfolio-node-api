@@ -1,0 +1,36 @@
+{
+  "schemas": {
+    "Role": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1,
+          "description": "Unique identifier for the role"
+        },
+        "name": {
+          "type": "string",
+          "example": "Admin",
+          "description": "Name of the role"
+        },
+        "description": {
+          "type": "string",
+          "example": "Description",
+          "description": "Name of the role"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-02-11T10:30:00Z",
+          "description": "Timestamp when the role was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-02-11T12:00:00Z",
+          "description": "Timestamp when the role was last updated"
+        }
+      }
+    }
+  }
+}

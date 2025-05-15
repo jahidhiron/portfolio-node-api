@@ -1,0 +1,44 @@
+{
+  "schemas": {
+    "Request": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "company": {
+          "type": "integer",
+          "example": 1,
+          "description": "ID of the associated company"
+        },
+        "domain": {
+          "type": "integer",
+          "example": 1,
+          "description": "ID of the associated domain"
+        },
+        "endpoint": {
+          "type": "string",
+          "example": "https://api.example.com/endpoint",
+          "description": "Endpoint of the API request"
+        },
+        "parameters": {
+          "type": "string",
+          "example": "param1=value1&param2=value2",
+          "description": "Parameters of the API request"
+        },
+        "status": {
+          "type": "boolean",
+          "example": false,
+          "description": "Status of the request (false = pending, true = resolved)"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2025-02-11T10:30:00Z",
+          "description": "Timestamp when the request was created"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "info": {
+    "title": "User Login History API",
+    "version": "1.0.0",
+    "description": "API for managing user login history (track user logins, get login details, list login records, and delete login history)."
+  }
+}

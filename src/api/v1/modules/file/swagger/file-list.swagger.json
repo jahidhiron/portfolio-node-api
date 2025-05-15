@@ -1,0 +1,231 @@
+{
+  "get": {
+    "summary": "Get list of files with pagination, search, filter, and sorting",
+    "description": "Allows authenticated users to retrieve a list of files. Supports pagination, searching by file name, filtering by status, and sorting.",
+    "operationId": "fileList",
+    "tags": ["File"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "number"
+        },
+        "description": "Page number for pagination.",
+        "example": 1
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "schema": {
+          "type": "number"
+        },
+        "description": "Number of files per page.",
+        "example": 10
+      },
+      {
+        "name": "sorting",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string", "example": "createdAt" },
+              "order": { "type": "string", "example": "ASC" }
+            }
+          }
+        },
+        "description": "Sorting options as an array of objects with field and order."
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of files retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "OK" },
+                "statusCode": { "type": "integer", "example": 200 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "Get file list successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "example": 1 },
+                          "path": {
+                            "type": "string",
+                            "example": "products/products_1742216339719.png"
+                          },
+
+                          "size": { "type": "integer", "example": 86596 },
+                          "mimetype": {
+                            "type": "string",
+                            "example": "image/png"
+                          },
+
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2025-01-01T12:00:00Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2025-01-01T12:00:00Z"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "pages": { "type": "integer", "example": 12 },
+                        "total": { "type": "integer", "example": 120 }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "success-example": {
+                "summary": "A successful file list response",
+                "value": {
+                  "name": "OK",
+                  "statusCode": 200,
+                  "response": true,
+                  "message": "Get file list successfully",
+                  "data": {
+                    "files": [
+                      {
+                        "path": "items/ecltadclsmgh_1742216339719.png",
+                        "size": 86596,
+                        "mimetype": "image/png",
+                        "id": 1,
+                        "createdAt": "2025-03-17T12:59:00.357Z",
+                        "updatedAt": "2025-03-17T12:59:00.357Z"
+                      },
+                      {
+                        "path": "products/ecltadclsmgh_1742216339719.png",
+                        "size": 16596,
+                        "mimetype": "image/png",
+                        "id": 2,
+                        "createdAt": "2025-03-17T12:59:00.357Z",
+                        "updatedAt": "2025-03-17T12:59:00.357Z"
+                      }
+                    ],
+                    "meta": {
+                      "page": 1,
+                      "limit": 10,
+                      "total": 50
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, invalid or missing token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Unauthorized" },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "unauthorized-error-example": {
+                "summary": "Unauthorized error response",
+                "value": {
+                  "name": "UnauthorizedError",
+                  "response": false,
+                  "message": "Unauthorized",
+                  "statusCode": 401,
+                  "errors": [{ "message": "Unauthorized" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": {
+                  "type": "string",
+                  "example": "InternalServerError"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "internal-server-error-example": {
+                "summary": "Internal server error",
+                "value": {
+                  "name": "InternalServerError",
+                  "response": false,
+                  "message": "Internal server error",
+                  "statusCode": 500,
+                  "errors": [{ "message": "Internal server error" }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

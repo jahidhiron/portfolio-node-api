@@ -1,0 +1,8 @@
+"start:stage": "concurrently \"npm run build\" && npx typeorm migration:run -d dist/config/postgresql.config.js",
+"prod": "concurrently \"npm run build\" \"node ./dist/server.js\"",
+"start:dev": "docker compose --env-file ./.env.development -f ./docker-compose.yml -f ./docker-compose.development.yml up --build",
+"dev:down": "docker compose --env-file ./.env.development -f ./docker-compose.yml -f ./docker-compose.development.yml down",
+"stage:up": "docker compose --env-file ./.env.stage -f ./docker-compose.yml up --build -d",
+"stage:down": "npx typeorm migration:revert && docker compose --env-file ./.env.stage -f ./docker-compose.yml down",
+"start:prod": "docker compose --env-file ./.env.production -f ./docker-compose.yml up --build -d",
+"prod:down": "docker compose --env-file ./.env.production -f ./docker-compose.yml down"

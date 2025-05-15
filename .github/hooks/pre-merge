@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run the setup-envs.sh script before merging
+./setup-envs.sh

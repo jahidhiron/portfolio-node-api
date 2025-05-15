@@ -1,0 +1,250 @@
+{
+  "/auth/signup": {
+    "post": {
+      "summary": "Sign up a new user",
+      "description": "Registers a new user with the provided first name, last name, email, and password. An email verification token will be sent.",
+      "operationId": "signupUser",
+      "tags": ["Auth"],
+      "requestBody": {
+        "description": "User data required for signup",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": { "type": "string", "example": "John" },
+                "lastName": { "type": "string", "example": "Doe" },
+                "email": {
+                  "type": "string",
+                  "example": "john.doe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "securePassword123"
+                },
+                "role": { "type": "string", "example": "Admin" },
+                "company": { "type": "integer", "example": "1" }
+              },
+              "required": ["firstName", "lastName", "email", "password"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "User signup successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Created" },
+                  "statusCode": { "type": "integer", "example": 201 },
+                  "response": { "type": "boolean", "example": true },
+                  "message": {
+                    "type": "string",
+                    "example": "Signup successful, please check your email for verification"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "user": { "$ref": "#/components/schemas/User" }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "success-example": {
+                  "summary": "A successful signup example response",
+                  "value": {
+                    "name": "Created",
+                    "statusCode": 201,
+                    "response": true,
+                    "message": "Signup successful, please check your email for verification",
+                    "data": {
+                      "user": {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Doe",
+                        "email": "john.doe@example.com",
+                        "isActive": false,
+                        "isVerified": false,
+                        "role": 1,
+                        "createdAt": "2025-01-01T12:00:00Z",
+                        "updatedAt": "2025-01-01T12:00:00Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad request, invalid input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "InvalidRequestParametersError"
+                  },
+                  "response": { "type": "boolean", "example": false },
+                  "message": {
+                    "type": "string",
+                    "example": "Invalid request parameters"
+                  },
+                  "statusCode": { "type": "integer", "example": 400 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "First name is required"
+                        },
+                        "field": { "type": "string", "example": "firstName" },
+                        "location": { "type": "string", "example": "body" }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "invalid-input-error-example": {
+                  "summary": "Invalid input example response",
+                  "value": {
+                    "name": "InvalidRequestParametersError",
+                    "response": false,
+                    "message": "Invalid request parameters",
+                    "statusCode": 400,
+                    "errors": [
+                      {
+                        "message": "First name is required",
+                        "field": "firstName",
+                        "location": "body"
+                      },
+                      {
+                        "message": "Last name is required",
+                        "field": "lastName",
+                        "location": "body"
+                      },
+                      {
+                        "message": "Invalid email",
+                        "field": "email",
+                        "location": "body"
+                      },
+                      {
+                        "message": "Password should be between 6 to 64 characters long",
+                        "field": "password",
+                        "location": "body"
+                      },
+                      {
+                        "message": "Role is a numeric value",
+                        "field": "role",
+                        "location": "body"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "Conflict, email already exist",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "response": { "type": "boolean", "example": false },
+                  "name": { "type": "string", "example": "ConflictError" },
+                  "message": {
+                    "type": "string",
+                    "example": "Email already in use"
+                  },
+                  "statusCode": { "type": "integer", "example": 409 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Email already in use"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "email-exist-error-example": {
+                  "summary": "Email already exists example response",
+                  "value": {
+                    "response": false,
+                    "name": "ConflictError",
+                    "message": "Email already in use",
+                    "statusCode": 409,
+                    "errors": [{ "message": "Email already in use" }]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Internal server error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "response": { "type": "boolean", "example": false },
+                  "name": {
+                    "type": "string",
+                    "example": "InternalServerError"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  },
+                  "statusCode": { "type": "integer", "example": 500 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Internal server error"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "internal-server-error-example": {
+                  "summary": "Internal server error example response",
+                  "value": {
+                    "response": false,
+                    "name": "InternalServerError",
+                    "message": "Internal server error",
+                    "statusCode": 500,
+                    "errors": [{ "message": "Internal server error" }]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

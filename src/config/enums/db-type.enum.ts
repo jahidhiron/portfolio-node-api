@@ -1,0 +1,16 @@
+export enum DbType {
+  MySQL = 'mysql',
+  MariaDB = 'mariadb',
+  Postgres = 'postgres',
+  CockroachDB = 'cockroachdb',
+  SQLite = 'sqlite',
+  MSSQL = 'mssql',
+  SAP = 'sap',
+  Oracle = 'oracle',
+  Cordova = 'cordova',
+  NativeScript = 'nativescript',
+  ReactNative = 'react-native',
+  SQLJS = 'sqljs',
+  MongoDB = 'mongodb',
+  AuroraMySQL = 'aurora-mysql',
+}

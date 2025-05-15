@@ -1,0 +1,207 @@
+{
+  "post": {
+    "summary": "Create a new request",
+    "description": "Submits a new request with the provided company, user, wheel, and message.",
+    "operationId": "createRequest",
+    "tags": ["Request"],
+    "requestBody": {
+      "description": "Request data required for submission",
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "company": { "type": "integer", "example": 1 },
+              "user": { "type": "integer", "example": 2 },
+              "wheel": { "type": "integer", "example": 10 },
+              "message": {
+                "type": "string",
+                "nullable": true,
+                "example": "I need more details about this wheel."
+              }
+            },
+            "required": ["company", "user", "wheel"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Request submission successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "Created" },
+                "statusCode": { "type": "integer", "example": 201 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "Request submitted successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "request": { "$ref": "#/components/schemas/Request" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request, invalid input",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "InvalidRequestParametersError"
+                },
+                "response": { "type": "boolean", "example": false },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid request parameters"
+                },
+                "statusCode": { "type": "integer", "example": 400 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Company ID is required"
+                      },
+                      "field": { "type": "string", "example": "company" },
+                      "location": { "type": "string", "example": "body" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, authentication required",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "message": {
+                  "type": "string",
+                  "example": "Authentication required"
+                },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid token"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict, request already exists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "ConflictError" },
+                "message": { "type": "string", "example": "Duplicate request" },
+                "statusCode": { "type": "integer", "example": 409 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Request already exists"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "duplicate-request-error-example": {
+                "summary": "Request already exists example response",
+                "value": {
+                  "response": false,
+                  "name": "ConflictError",
+                  "message": "Duplicate request",
+                  "statusCode": 409,
+                  "errors": [{ "message": "Request already exists" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "InternalServerError" },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "internal-server-error-example": {
+                "summary": "Internal server error example response",
+                "value": {
+                  "response": false,
+                  "name": "InternalServerError",
+                  "message": "Internal server error",
+                  "statusCode": 500,
+                  "errors": [{ "message": "Internal server error" }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "get": {
+    "summary": "Get list of users with pagination, search, filter, and sorting",
+    "description": "Allows authenticated users to retrieve a list of users. Supports pagination, searching by query, filtering by verification status and role, and sorting.",
+    "operationId": "getUsersList",
+    "tags": ["User"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "q",
+        "in": "query",
+        "schema": { "type": "string" },
+        "description": "Search query to filter users by name or email.",
+        "example": "John"
+      },
+      {
+        "name": "isVerified",
+        "in": "query",
+        "schema": { "type": "boolean" },
+        "description": "Filter users by verification status.",
+        "example": true
+      },
+      {
+        "name": "isActive",
+        "in": "query",
+        "schema": { "type": "boolean" },
+        "description": "Filter users by active status.",
+        "example": true
+      },
+      {
+        "name": "role",
+        "in": "query",
+        "schema": { "type": "integer" },
+        "description": "Filter users by role. 1 for admin, 2 for brand manager and 3 for customer.",
+        "example": 2
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "schema": { "type": "integer" },
+        "description": "Page number for pagination.",
+        "example": 1
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "schema": { "type": "integer" },
+        "description": "Number of users per page.",
+        "example": 10
+      },
+      {
+        "name": "sorting",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field": { "type": "string", "example": "createdAt" },
+              "order": { "type": "string", "example": "ASC" }
+            }
+          }
+        },
+        "description": "Sorting options as an array of objects with field and order."
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of users retrieved successfully",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "OK" },
+                "statusCode": { "type": "integer", "example": 200 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "Get user list successfully"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "example": 1 },
+                          "firstName": {
+                            "type": "string",
+                            "example": "John"
+                          },
+                          "lastName": { "type": "string", "example": "Doe" },
+                          "email": {
+                            "type": "string",
+                            "example": "john.doe@example.com"
+                          },
+                          "isVerified": { "type": "boolean", "example": true },
+                          "isActive": { "type": "boolean", "example": true },
+                          "role": { "type": "integer", "example": 2 },
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2025-01-01T12:00:00Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "example": "2025-01-01T12:00:00Z"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "pages": { "type": "integer", "example": 12 },
+                        "total": { "type": "integer", "example": 120 }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "success-example": {
+                "summary": "A successful user list response",
+                "value": {
+                  "name": "OK",
+                  "statusCode": 200,
+                  "response": true,
+                  "message": "Get user list successfully",
+                  "data": {
+                    "users": [
+                      {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Doe",
+                        "email": "john.doe@example.com",
+                        "isVerified": true,
+                        "isActive": true,
+                        "createdAt": "2025-01-01T12:00:00Z",
+                        "updatedAt": "2025-01-01T12:00:00Z",
+                        "role": {
+                          "id": 2
+                        }
+                      }
+                    ],
+                    "meta": {
+                      "page": 1,
+                      "limit": 10,
+                      "total": 50
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, invalid or missing token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "response": { "type": "boolean", "example": false },
+                "message": { "type": "string", "example": "Unauthorized" },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Unauthorized"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "unauthorized-error-example": {
+                "summary": "Unauthorized error response",
+                "value": {
+                  "name": "UnauthorizedError",
+                  "response": false,
+                  "message": "Unauthorized",
+                  "statusCode": 401,
+                  "errors": [{ "message": "Unauthorized" }]
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": {
+                  "type": "string",
+                  "example": "InternalServerError"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "examples": {
+              "internal-server-error-example": {
+                "summary": "Internal server error",
+                "value": {
+                  "name": "InternalServerError",
+                  "response": false,
+                  "message": "Internal server error",
+                  "statusCode": 500,
+                  "errors": [{ "message": "Internal server error" }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+services:
+  portfolio-api:
+    volumes:
+      - ./:/${APP_DIR}

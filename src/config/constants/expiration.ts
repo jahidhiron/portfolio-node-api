@@ -1,0 +1,1 @@
+export const VERIFICATION_TOKEN_WITHIN_MS = 60;

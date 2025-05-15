@@ -1,0 +1,213 @@
+{
+  "post": {
+    "summary": "Upload a new file",
+    "description": "Uploads a file.",
+    "operationId": "uploadFile",
+    "tags": ["File"],
+    "requestBody": {
+      "description": "File upload request body",
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "files": {
+                "type": "string",
+                "format": "binary"
+              },
+              "prefix": {
+                "type": "string",
+                "example": "products"
+              }
+            },
+            "required": ["files", "prefix"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "File upload successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "example": "Created" },
+                "statusCode": { "type": "integer", "example": 201 },
+                "response": { "type": "boolean", "example": true },
+                "message": {
+                  "type": "string",
+                  "example": "succ-file-upload"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string",
+                            "example": "products/products_1742216339719.png"
+                          },
+                          "size": { "type": "integer", "example": 86596 },
+                          "mimetype": {
+                            "type": "string",
+                            "example": "image/png"
+                          },
+                          "id": { "type": "integer", "example": 12 },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-03-17T12:59:00.357Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2025-03-17T12:59:00.357Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Bad request, invalid input",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "InvalidRequestParametersError"
+                },
+                "response": { "type": "boolean", "example": false },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid request parameters"
+                },
+                "statusCode": { "type": "integer", "example": 400 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "File is required"
+                      },
+                      "field": { "type": "string", "example": "files" },
+                      "location": { "type": "string", "example": "body" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized, authentication required",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "UnauthorizedError" },
+                "message": {
+                  "type": "string",
+                  "example": "Authentication required"
+                },
+                "statusCode": { "type": "integer", "example": 401 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid token"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict, file already exists",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "ConflictError" },
+                "message": {
+                  "type": "string",
+                  "example": "File already exists"
+                },
+                "statusCode": { "type": "integer", "example": 409 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "File is already uploaded"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "response": { "type": "boolean", "example": false },
+                "name": { "type": "string", "example": "InternalServerError" },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                },
+                "statusCode": { "type": "integer", "example": 500 },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Internal server error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

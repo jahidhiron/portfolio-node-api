@@ -1,0 +1,213 @@
+{
+  "/auth/verify-email": {
+    "post": {
+      "summary": "Verify a user email",
+      "description": "Verifies a user's email address using the provided email and verification token.",
+      "operationId": "verifyEmail",
+      "tags": ["Auth"],
+      "requestBody": {
+        "description": "Email and verification token required for email verification",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "john.doe@example.com"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "123e4567-e89b-12d3-a456-426614174000"
+                }
+              },
+              "required": ["email", "token"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Email verification successful",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "OK" },
+                  "statusCode": { "type": "integer", "example": 200 },
+                  "response": { "type": "boolean", "example": true },
+                  "message": {
+                    "type": "string",
+                    "example": "Email verification successful"
+                  }
+                }
+              },
+              "examples": {
+                "success-example": {
+                  "summary": "A successful email verification response",
+                  "value": {
+                    "name": "OK",
+                    "statusCode": 200,
+                    "response": true,
+                    "message": "Email verification successful"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad request, invalid input",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "InvalidRequestParametersError"
+                  },
+                  "response": { "type": "boolean", "example": false },
+                  "message": {
+                    "type": "string",
+                    "example": "Invalid request parameters"
+                  },
+                  "statusCode": { "type": "integer", "example": 400 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Token is required"
+                        },
+                        "field": { "type": "string", "example": "token" },
+                        "location": { "type": "string", "example": "body" }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "invalid-input-error-example": {
+                  "summary": "Invalid input example response",
+                  "value": {
+                    "name": "InvalidRequestParametersError",
+                    "response": false,
+                    "message": "Invalid request parameters",
+                    "statusCode": 400,
+                    "errors": [
+                      {
+                        "message": "Invalid email",
+                        "field": "email",
+                        "location": "body"
+                      },
+                      {
+                        "message": "Token is required",
+                        "field": "token",
+                        "location": "body"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "Conflict, email already verified",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "response": { "type": "boolean", "example": false },
+                  "name": { "type": "string", "example": "ConflictError" },
+                  "message": { "type": "string", "example": "Conflict" },
+                  "statusCode": { "type": "integer", "example": 409 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Email already verified"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "email-already-verified-error-example": {
+                  "summary": "Email already verified example response",
+                  "value": {
+                    "name": "ConflictError",
+                    "response": false,
+                    "message": "Conflict",
+                    "statusCode": 409,
+                    "errors": [{ "message": "Email already verified" }]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Internal server error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "response": { "type": "boolean", "example": false },
+                  "name": {
+                    "type": "string",
+                    "example": "InternalServerError"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                  },
+                  "statusCode": { "type": "integer", "example": 500 },
+                  "errors": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Internal server error"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "internal-server-error-example": {
+                  "summary": "Internal server error",
+                  "value": {
+                    "name": "InternalServerError",
+                    "response": false,
+                    "message": "Internal server error",
+                    "statusCode": 500,
+                    "errors": [
+                      {
+                        "message": "Internal server error"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

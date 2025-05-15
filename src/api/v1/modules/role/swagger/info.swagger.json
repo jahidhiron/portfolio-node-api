@@ -1,0 +1,7 @@
+{
+  "info": {
+    "title": "Role API",
+    "version": "1.0.0",
+    "description": "API for role management (create, update, get details, list roles, and delete role)."
+  }
+}

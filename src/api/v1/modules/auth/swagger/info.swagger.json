@@ -1,0 +1,7 @@
+{
+  "info": {
+    "title": "Auth API",
+    "version": "1.0.0",
+    "description": "API for user authentication (signup, signin, verify email, resend email verification token, forgot password, reset password, change password, and signout)."
+  }
+}

@@ -1,0 +1,8 @@
+export const DEFAULT_CACHING_TIME_IN_SEC = 3600;
+
+export const RETRY_STRATEGY = {
+  INITIAL_DELAY: 100,
+  MAX_DELAY: 5000,
+  MIN_JITTER: 0.5,
+  MAX_JITTER_RANDOM_VALUE: 0.5,
+} as const;
