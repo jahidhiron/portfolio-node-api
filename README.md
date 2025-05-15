@@ -48,48 +48,7 @@ npm run dev
 
 ## 📁 Project Structure
 
-src/
-├── api/ # Main API source code (versioned)
-│ ├── v1/ # API version 1
-│ │ ├── constants/ # Constant values used in API
-│ │ ├── errors/ # Custom error definitions and handlers
-│ │ ├── helpers/ # Reusable helper functions
-│ │ ├── init/ # Initialization scripts (e.g., DB connection)
-│ │ ├── locales/ # i18n localization files
-│ │ ├── middlewares/ # Custom Express middlewares
-│ │ ├── modules/ # Feature-based modules
-│ │ │ ├── auth/ # Authentication module
-│ │ │ │ ├── test/
-│ │ │ │ ├── interface/
-│ │ │ │ ├── swagger/
-│ │ │ │ ├── utils/
-│ │ │ │ ├── auth.controller.ts
-│ │ │ │ ├── auth.route.ts
-│ │ │ │ ├── auth.service.ts
-│ │ │ │ ├── auth.swagger.ts
-│ │ │ │ └── auth.validator.ts
-│ │ │ └── others/ # Other feature modules follow the same pattern
-│ │ ├── services/ # Shared services (e.g., DB, Redis, S3)
-│ │ │ ├── postgresql/
-│ │ │ ├── redis/
-│ │ │ ├── s3-service/
-│ │ │ ├── send-grid/
-│ │ │ └── index.ts
-│ │ ├── tasks/ # Background jobs using BullMQ
-│ │ │ ├── bullmq/
-│ │ │ ├── queue/
-│ │ │ └── workers/
-│ │ ├── templates/ # EJS/email templates
-│ │ │ ├── auth/
-│ │ │ └── other/
-│ │ ├── utils/ # Common/shared utility functions
-│ │ └── routes.ts # Central route registry
-├── config/ # App and 3rd-party service configuration
-├── migrations/ # DB migration files (e.g., TypeORM)
-├── logs/ # Log files (runtime, errors, etc.)
-├── app.ts # Express app setup and middleware
-├── server.ts # App entry point
-└── jest.setup.ts # Jest test setup/config
+![Project Structure](./project_structure.png)
 
 ## 📄 API Documentation
 
