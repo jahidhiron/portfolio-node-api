@@ -55,9 +55,6 @@ npm run dev
 After starting the server, you can access the interactive API documentation powered by Swagger UI at:
 http://localhost:<your-port>/api-docs
 
-After starting the server, you can access the interactive API documentation powered by Swagger UI at:
-http://localhost:<your-port>/api-docs
-
 ## License
 
 This project is licensed under the MIT License.
